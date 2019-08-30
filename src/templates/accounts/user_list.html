@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style type="text/css">
+	.page{
+		margin-top:5%;
+		
+	}
+	.page1{
+		margin-top: 3%;
+		background-color: white;
+	}
+</style>
+
+{% endblock %}
+
+
+{% block body %}
+<div class="page">
+<center><h1 style="color:cyan">User List</h1></center>
+<hr></div>
+<table class="table table-bordered page1">
+  <thead>
+    <tr>
+      <th>UserID</th>
+      <th>Username</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+      <tr>
+      	<td>{{user.id}}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<center>
+{% if users.has_other_pages %}
+  <ul class="pagination">
+    {% if users.has_previous %}
+      <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in users.paginator.page_range %}
+      {% if users.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if users.has_next %}
+      <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}</center></div>
+{% endblock %}  

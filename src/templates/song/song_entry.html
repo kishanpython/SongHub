@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static  %}
+
+
+{% block head %}
+<style type="text/css">
+	.errorlist{
+		color:red;
+	}
+	.log{
+		margin-top: 6%;
+    background-color: rgb(0,10,20,0.6)
+	}
+	label{
+		color:white;
+	}
+</style>
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container log">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 col-sm-4">
+			<center><h1 style="color:cyan">Add New Song</h1></center>
+			<hr>
+			<center>{{msg}}</center>
+			<form action="{% url 'song:song_entry' %}" enctype="multipart/form-data" method="POST">
+				{% csrf_token %}
+				<center>{{forms.as_p}}
+					<button type="submit"  class="btn btn-primary">Submit</button>
+					<button type="reset" class="btn btn-primary">Clear</button></center>
+			</form>
+
+		</div>
+		
+	</div><br><br>
+	
+</div>
+
+
+
+
+
+{% endblock %}

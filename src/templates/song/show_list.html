@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+ th {
+ 	color:orange;
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+td{
+	border: 1px solid white;
+  text-align: left;
+  padding: 8px;
+  color:white;
+}
+.list{
+	margin-top: 5%;
+	
+}
+.log{
+	background-color:rgb(0,10,20,0.5);
+}
+
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="list">
+	<center><h1 style="color:cyan;text-decoration-line: underline; font-size: 45px">Song List</h1></center><br>
+<table class="log">
+	<thead>
+			<tr>
+				<th>Sid</th>
+				<th>Sname</th>
+				<th>Singer</th>
+				<th>Cost</th>
+				<th>Desc</th>
+				<th>Play</th>
+				<th>Action</th>
+				
+			</tr>
+	</thead>
+{% if song_obj %}
+	<tbody>
+		{% for song in song_obj %}
+			<tr>
+				<td>{{ song.sid }}</td>
+				<td>{{ song.sname }}</td>
+				<td>{{ song.singer }}</td>
+				<td>{{ song.cost }}</td>
+				<td>{{ song.desc }}</td>
+				<td><a href="{% url 'song:players' song.id %}">Play</a></td>
+				<td>
+					<a href="{% url 'song:song_update' song.id%}">Edit </a>/
+					<a href="{% url 'song:song_delete' song.id %}" onclick="return confirm('Are you sure want to delete {{song.sname}} ?' )">Delete</a>
+				</td>
+
+			</tr>
+			{% endfor %}	
+</tbody>
+</table>
+<!-- {% for  i in songlist %}
+<audio src="{{i.file.url}}" controls>
+Your browser does not support the audio element.
+</audio>
+{% endfor %} -->
+<!-- <video controls="" autoplay="No" name="media"><source src="/media/musics/songs/Coolar_Kurti_Me_-_Deewanapan_-_Full_Video_Song_-_Khesari_Lal_Yadav_-_Kajal_.mp3" type="audio/mpeg"></video> -->
+<center>
+{% if song_obj.has_other_pages %}
+  <ul class="pagination">
+    {% if song_obj.has_previous %}
+      <li><a href="?page={{ song_obj.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in song_obj.paginator.page_range %}
+      {% if song_obj.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if song_obj.has_next %}
+      <li><a href="?page={{ song_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}</center><br><br>
+		{% else %}
+			<center><h1>No data</h1></center>
+		{% endif %}	
+</div>
+
+
+{% endblock %}

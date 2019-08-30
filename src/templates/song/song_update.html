@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+
+<style type="text/css">
+	.list{
+	
+	
+}
+.log{
+	margin-top: 7%;
+	background-color:rgb(0,10,20);
+}label{
+	color:white;
+}
+</style>
+{% endblock  %}
+
+
+{% block body %}
+
+<div class="container log">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 col-sm-4  ">
+			<center><h1 style="color:cyan">Song Update</h1></center>
+			<hr>
+			{% if messages %}
+			 	<center>
+		      		{% for message in messages %}
+			            <div class="alert {{ message.tags}} alert-dismissible">
+			              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			               {{msgr}}{{ message }}{{msg}}
+			            </div>
+		      		{% endfor %}
+		      		<a href="{% url 'song:song_list' %}"><button class="btn btn-success">Goto Songlist</button></a>
+		      	</center>
+		    {% else %}  	
+					<form action="{% url 'song:song_update' song.id %}" enctype="multipart/form-data" method="POST">
+									{% csrf_token %}
+									<center>{{forms.as_p}}
+							<button type="submit"  class="btn btn-primary">Submit</button>
+							<button type="reset" class="btn btn-primary">Clear</button></center>
+					</form>
+			{% endif %}		
+		</div>
+		
+	</div><br>
+	
+</div>
+
+
+
+
+{% endblock %}

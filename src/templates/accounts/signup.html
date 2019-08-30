@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static  %}
+
+
+{% block head %}
+<style type="text/css">
+  .errorlist{
+    color:red;
+  }
+  .log{
+    margin-top: 6%;
+    
+    background-color: rgb(0,10,20,0.5)
+    
+  }
+
+input{
+  color:white;
+  margin-top:3%;
+}
+.btn{
+margin-top:0.5%;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+$("#id_username").change(function () {
+      var username = $(this).val();
+      // console.log(username)
+      $.ajax({
+        url: "{% url  'accounts:validate_username' %}",
+        data: {
+          'username': username,
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.is_taken) {
+            alert(data.error_message);
+          }
+          // else{
+          //   alert(data.correct_message)
+          // }
+        }
+      });
+
+    });
+
+
+});
+
+
+$(document).ready(function(){
+$("#id_email").change(function () {
+      var email = $(this).val();
+      console.log(email)
+      $.ajax({
+        url: "{% url  'accounts:validate_email' %}",
+        data: {
+          'email': email,
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.is_wrong == "Yes") {
+            alert(data.error_message);
+          }
+        }
+      });
+
+    });
+});
+</script>
+
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container  log">
+  <div class="row">
+    <div class="col-md-5 col-md-offset-4 col-sm-4">
+      <fieldset >
+      <center><h1 style="color:cyan">SignUP</h1></center>
+      <hr>
+      <center>
+      {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+               {{ message }}{{msg}}
+            </div>
+       
+      {% endfor %}</center>
+      <form action="{% url 'accounts:signup' %}" method="POST">
+        {% csrf_token %}
+        <center>{{forms.as_p}}</center>
+          <script src='https://www.google.com/recaptcha/api.js'></script>
+          <div class="g-recaptcha" data-sitekey="6LdZJp8UAAAAAK6Oa3DM_D1sIReqhPu1RVY0NVrt"></div>
+          <div class="btn">
+          <button type="submit"  class="btn btn-success">Submit</button>
+          <button type="reset" class="btn btn-primary">Clear</button><br><br>
+        </div>
+      </form>
+      </fieldset>
+    </div>
+    
+  </div>
+  
+</div>
+
+
+{% endblock %}
+
+{% block javascript %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+{% endblock %}

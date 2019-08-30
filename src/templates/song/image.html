@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+
+<style type="text/css">
+img{
+	height:500px;
+	width:500px;
+}
+
+</style>
+{% endblock %}
+
+
+{% block body %}
+
+
+{% if instance %}
+<center><h1 style="margin-top: 5%;color:cyan;">Media Details</h1><hr></center>
+{% for i in instance %}
+<div class="container">
+	<div class="row">
+	<center><p style="color:white">{{ i.id }}</p>
+		<p style="color:cyan">{{i.gender}}</p>
+		<p style="color:red">{{i.date}}</p>
+		<img src="{{i.image.url}}" class="img-thumbnail image"></center>
+<hr>
+	</div>
+</div>
+{% endfor %}
+{% else %}
+<h1>No data for now</h1>
+{% endif %}
+
+
+{% endblock%}
+
+{% block javascript %}
+
+
+{% endblock %}
